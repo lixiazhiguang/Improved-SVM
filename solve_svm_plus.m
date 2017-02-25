@@ -9,7 +9,7 @@ prediction_train = make_predict(X_train, X_train, theta, a);
 train_score = score_predict(train_num, prediction_train, y_train, '');
 disp('train err: ' + string(train_score))
 
-iter_time = 2;
+iter_time = 1;
 for i = 1:iter_time
 	% aim_func = -y_train.' * P * a
 	% theta = solve_theta(y_train, a, M, theta, v, beta);
@@ -17,31 +17,15 @@ for i = 1:iter_time
 	aim_func = -y_train.' * P * a
 	a = solve_a(y_train, a, u, P, rho);
 
-	prediction_train = make_predict(X_train, X_train, theta, a);
-	train_score = score_predict(train_num, prediction_train, y_train, '');
-
-	prediction_test = make_predict(X_train, X_test, theta, a);
-	test_score = score_predict(test_num, prediction_test, y_test, '');
-
-	disp('train err: ' + string(train_score) + ', test err: ' + string(test_score));
-
 	theta = solve_theta(y_train, a, M, theta, v, beta);
 	P = exp(M .* theta.');
 	aim_func = -y_train.' * P * a
-
-	prediction_train = make_predict(X_train, X_train, theta, a);
-	train_score = score_predict(train_num, prediction_train, y_train, '');
-
-	prediction_test = make_predict(X_train, X_test, theta, a);
-	test_score = score_predict(test_num, prediction_test, y_test, '');
-
-	disp('train err: ' + string(train_score) + ', test err: ' + string(test_score));
 end
 
-% prediction_train = make_predict(X_train, X_train, theta, a);
-% train_score = score_predict(train_num, prediction_train, y_train, '');
+prediction_train = make_predict(X_train, X_train, theta, a);
+train_score = score_predict(train_num, prediction_train, y_train, '');
 
-% prediction_test = make_predict(X_train, X_test, theta, a);
-% test_score = score_predict(test_num, prediction_test, y_test, '');
+prediction_test = make_predict(X_test, X_train, theta, a);
+test_score = score_predict(test_num, prediction_test, y_test, '');
 
-% disp('train err: ' + string(train_score) + ', test err: ' + string(test_score));
+disp('train err: ' + string(train_score) + ', test err: ' + string(test_score));
